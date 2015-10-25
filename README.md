@@ -1,5 +1,14 @@
 # rl
-Rate-limit output from an UNIX pipe
+Rate-limit output from an UNIX pipe. This is useful if you're writting scripts
+to query an API for example which has a rate limit.
+
+So let's say I want to run something against the GitHub API, but I only want to
+do one request every second. I can do it with:
+```bash
+cat list-of-inputs |
+rl "1/1s" |
+xargs -I % -L 1 -P32 curl -X GET -v https://api.github.com/some-github-url/% -u token:$GITHUB_API_TOKEN
+```
 
 ## Installation
 ```bash
